@@ -1,29 +1,29 @@
-import { TestBed } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { AppComponent } from './app.component';
+import { FooterComponent } from './footer/footer.component';
+import { MenuComponent } from './menu/menu.component';
 
 describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       imports: [AppComponent],
-    }).compileComponents();
-  });
+      providers: [provideRouter([])],
+    }).overrideComponent(AppComponent, {
+      remove: { imports: [FooterComponent, MenuComponent] },
+      add: { schemas: [CUSTOM_ELEMENTS_SCHEMA] },
+    });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
-
-  it(`should have the 'zenika-ng-website' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('zenika-ng-website');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, zenika-ng-website');
+  });
+
+  it('should be created', () => {
+    expect(component).toBeTruthy();
   });
 });
